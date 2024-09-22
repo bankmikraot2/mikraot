@@ -1,1 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden; /* מונע גלילה אופקית */
+        }
+        .container {
+            margin: 30px auto;
+            width: 100%;
+            max-width: 1200px; /* שיניתי את הרוחב המקסימלי כדי שיהיה רחב יותר */
+            text-align: center;
+            position: relative;
+            padding: 20px; /* מוסיף רווח פנימי כדי שהטקסט לא יהיה צמוד לדפנות */
+        }
+        #student-number {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            width: 25%;
+            direction: rtl;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #error-message {
+            color: red;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .student-name-family {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: darkblue;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .branch-name {
+            position: absolute;
+            top: 215px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 21px;
+            color: #006400;
+            font-weight: bold;
+            font-family: 'Times New Roman', serif;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        }
+        .student-name-container {
+            position: relative;
+            display: inline-block;
+            margin-top: -25px;
+        }
+        .student-name-container img {
+            width: 100%;
+            max-width: 500px;
+        }
+        div#student-image {
+            margin-top: -45px;
+        }
+        .student-image {
+            width: 100%;
+            max-width: 420px;
+            margin: 5px auto;
+        }
+        .points-container {
+            position: relative;
+            display: inline-block;
+            margin-top: -45px;
+        }
+        .points-container img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+        .points-text {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: yellow;
+            font-size: 90px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px black;
+        }
+        .logo {
+            max-width: 200px;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .side-image-left {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 500px;
+            height: auto;
+            z-index: 1;
+        }
+        .side-image-right {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            width: 800px;
+            height: auto;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
 
+<div class="container">
+    <img src="images/logo.png" alt="Logo" class="logo">
+
+    <input type="text" id="student-number" placeholder="מספר תלמיד" onkeyup="checkEnter(event)">
+
+    <div class="student-name-container">
+        <img src="images/02.png" alt="Background">
+        <div class="student-name-family" id="student-name-family"></div>
+        <div class="branch-name" id="branch-name"></div>
+    </div>
+
+    <div id="error-message"></div>
+
+    <!-- הצגת התמונות כברירת מחדל -->
+    <div id="student-image">
+        <img src="images/01.png" alt="תלמיד יקר" class="student-image">
+    </div>
+
+    <div class="points-container" id="points-container">
+        <img src="images/points.png" alt="Points Background">
+        <div class="points-text" id="student-points"></div>
+    </div>
+
+</div>
+
+<img src="images/b.png" alt="Left Image" class="side-image-left">
+<img src="images/e.png" alt="Right Image" class="side-image-right">
+
+<script>
+    // קוד JavaScript שלך נותר כמו שהוא
+</script>
+
+</body>
+</html>
