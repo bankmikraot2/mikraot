@@ -13,17 +13,18 @@
             min-height: 100vh;
         }
         .container {
-            margin: 30px auto;
+            margin: 30px auto; /* העלאת המיקום של כל התוכן */
             max-width: 600px;
             text-align: center;
             position: relative;
         }
+        /* שדה להזנת מספר התלמיד */
         #student-number {
             padding: 10px;
             margin: 10px;
             font-size: 16px;
-            width: 25%;
-            direction: rtl;
+            width: 25%; /* מקטין את הרוחב ל-50% */
+            direction: rtl; /* מוודא שהטקסט מיושר לימין */
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -37,7 +38,7 @@
         }
         .student-name-family {
             position: absolute;
-            top: 30%;
+            top: 30%; /* העלאת שם התלמיד למרכז יחסית */
             left: 50%;
             transform: translate(-50%, -50%);
             color: darkblue;
@@ -46,19 +47,19 @@
         }
         .branch-name {
             position: absolute;
-            top: 215px;
+            top: 215px; /* התאם לפי הצורך */
             left: 50%;
             transform: translateX(-50%);
             font-size: 21px;
-            color: #006400;
+            color: #006400; /* ירוק כהה *
             font-weight: bold;
-            font-family: 'Times New Roman', serif;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            font-family: 'Times New Roman', serif; /* פונט יוקרתי */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* צל עדין יותר */
         }
         .student-name-container {
             position: relative;
             display: inline-block;
-            margin-top: -25px;
+            margin-top: -25px; /* העלאה של התמונה */
         }
         .student-name-container img {
             width: 100%;
@@ -70,12 +71,12 @@
         .student-image {
             width: 140%;
             max-width: 420px;
-            margin: 5px auto;
+            margin: 5px auto; /* העלאה של התמונה */
         }
         .points-container {
             position: relative;
             display: inline-block;
-            margin-top: -45px;
+            margin-top: -45px; /* העלאה של התמונה */
         }
         .points-container img {
             width: 300px;
@@ -83,7 +84,7 @@
         }
         .points-text {
             position: absolute;
-            top: 40%;
+            top: 40%; /* שמירה על המיקום של המספר במרכז */
             left: 50%;
             transform: translate(-50%, -50%);
             color: yellow;
@@ -93,7 +94,7 @@
         }
         .logo {
             max-width: 200px;
-            margin-bottom: 10px;
+            margin-bottom: 10px; /* העלאה של הלוגו */
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -109,12 +110,12 @@
         }
         .side-image-right {
             position: absolute;
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-            width: 800px;
+            top: 50%; /* שים את התמונה במקביל לגובה של התמונה עם ה-ID `b` */
+            right: 0; /* מיקום התמונה בצד ימין */
+            transform: translateY(-50%); /* ממרכז את התמונה לפי האמצע שלה */
+            width: 800px; /* גובה או רוחב התמונה לפי הצורך */
             height: auto;
-            z-index: 1;
+            z-index: 1; /* מקפיץ את התמונה למעלה אם יש תמונות אחרות */
         }
     </style>
 </head>
@@ -123,22 +124,23 @@
 <div class="container">
     <img src="images/logo.png" alt="Logo" class="logo">
 
+    <!-- שדה להזנת מספר תלמיד ממוקם במרכז העמוד -->
     <input type="text" id="student-number" placeholder="מספר תלמיד" onkeyup="checkEnter(event)">
 
     <div class="student-name-container">
         <img src="images/02.png" alt="Background">
         <div class="student-name-family" id="student-name-family"></div>
+        <!-- הסניף מתחת לשם התלמיד -->
         <div class="branch-name" id="branch-name"></div>
     </div>
 
     <div id="error-message"></div>
 
-    <!-- הצגת התמונות כברירת מחדל -->
-    <div id="student-image">
+    <div id="student-image" style="display:none;">
         <img src="images/01.png" alt="תלמיד יקר" class="student-image">
     </div>
 
-    <div class="points-container" id="points-container">
+    <div class="points-container" style="display:none;" id="points-container">
         <img src="images/points.png" alt="Points Background">
         <div class="points-text" id="student-points"></div>
     </div>
@@ -203,14 +205,21 @@
 
     function showStudentData(student) {
         document.getElementById('student-name-family').textContent = student.name + ' ' + student.family;
-        document.getElementById('branch-name').textContent = 'סניף: ' + student.branch;
+        document.getElementById('branch-name').textContent = 'סניף: ' + student.branch; // הצגת הסניף
         document.getElementById('student-points').textContent = student.points;
+        document.getElementById('points-container').style.display = 'inline-block';
+
+        document.getElementById('student-image').style.display = 'block';
+
+        document.getElementById('error-message').textContent = '';
     }
 
     function showError(message) {
         document.getElementById('error-message').textContent = message;
+        document.getElementById('points-container').style.display = 'none';
+        document.getElementById('student-image').style.display = 'none';
         document.getElementById('student-name-family').textContent = '';
-        document.getElementById('branch-name').textContent = '';
+        document.getElementById('branch-name').textContent = ''; // הוספת הסניף במקרה של שגיאה
     }
 </script>
 
