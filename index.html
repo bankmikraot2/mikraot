@@ -1,160 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Info</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             position: relative;
             min-height: 100vh;
-            overflow-x: hidden; /* מונע גלילה אופקית */
+            overflow-x: hidden;
         }
-        .container {
-            margin: 30px auto;
-            width: 100%;
-            max-width: 1200px; /* שיניתי את הרוחב המקסימלי כדי שיהיה רחב יותר */
-            text-align: center;
-            position: relative;
-            padding: 20px; /* מוסיף רווח פנימי כדי שהטקסט לא יהיה צמוד לדפנות */
-        }
-        #student-number {
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-            width: 25%;
-            direction: rtl;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        #error-message {
-            color: red;
-            font-size: 16px;
-            margin-top: 20px;
-        }
-        .student-name-family {
+        .side-image {
             position: absolute;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: darkblue;
-            font-size: 36px;
-            font-weight: bold;
-        }
-        .branch-name {
-            position: absolute;
-            top: 215px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 21px;
-            color: #006400;
-            font-weight: bold;
-            font-family: 'Times New Roman', serif;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-        }
-        .student-name-container {
-            position: relative;
-            display: inline-block;
-            margin-top: -25px;
-        }
-        .student-name-container img {
-            width: 100%;
-            max-width: 500px;
-        }
-        div#student-image {
-            margin-top: -45px;
-        }
-        .student-image {
-            width: 100%;
-            max-width: 420px;
-            margin: 5px auto;
-        }
-        .points-container {
-            position: relative;
-            display: inline-block;
-            margin-top: -45px;
-        }
-        .points-container img {
-            width: 100%;
-            max-width: 300px;
+            top: 150px;
             height: auto;
         }
-        .points-text {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: yellow;
-            font-size: 90px;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px black;
+        .side-image-left {
+            left: 5%;
+            max-width: 900px; /* פי 2 מהגודל המקורי של 450px */
+        }
+        .side-image-right {
+            right: 5%; /* Changed from fixed pixels to percentage */
+        }
+        .center-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
         }
         .logo {
             max-width: 200px;
-            margin-bottom: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            margin-bottom: 20px;
         }
-        .side-image-left {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            width: 500px;
+        .decorative-images img {
+            max-width: 100%;
             height: auto;
-            z-index: 1;
+            margin-bottom: 20px;
         }
-        .side-image-right {
-            position: absolute;
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-            width: 800px;
-            height: auto;
-            z-index: 1;
+        @media (max-width: 1600px) {
+            .side-image {
+                max-width: 350px;
+            }
+            .side-image-left {
+                left: 2%;
+            }
+            .side-image-right {
+                right: 2%;
+            }
+        }
+        @media (max-width: 1200px) {
+            .side-image {
+                max-width: 250px;
+            }
+            .side-image-left {
+                left: 0;
+            }
+            .side-image-right {
+                right: 0;
+            }
+        }
+        @media (max-width: 992px) {
+            .side-image {
+                max-width: 200px;
+            }
+        }
+        @media (max-width: 768px) {
+            .side-image {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <img src="images/logo.png" alt="Logo" class="logo">
-
-    <input type="text" id="student-number" placeholder="מספר תלמיד" onkeyup="checkEnter(event)">
-
-    <div class="student-name-container">
-        <img src="images/02.png" alt="Background">
-        <div class="student-name-family" id="student-name-family"></div>
-        <div class="branch-name" id="branch-name"></div>
+    <img src="images/b.png" alt="Left Image" class="side-image side-image-left">
+    
+    <div class="center-content">
+        <img src="images/logo.png" alt="Logo" class="logo mx-auto d-block">
+        <input type="text" class="form-control w-75 mx-auto mb-4" placeholder="מספר תלמיד" maxlength="10">
+        <div class="decorative-images text-center">
+            <img src="images/02.png" alt="Decorative Image 1">
+            <img src="images/01.png" alt="תלמיד יקר">
+            <img src="images/points.png" alt="Points Background">
+        </div>
     </div>
 
-    <div id="error-message"></div>
+    <img src="images/e.png" alt="Right Image" class="side-image side-image-right">
 
-    <!-- הצגת התמונות כברירת מחדל -->
-    <div id="student-image">
-        <img src="images/01.png" alt="תלמיד יקר" class="student-image">
-    </div>
-
-    <div class="points-container" id="points-container">
-        <img src="images/points.png" alt="Points Background">
-        <div class="points-text" id="student-points"></div>
-    </div>
-
-</div>
-
-<img src="images/b.png" alt="Left Image" class="side-image-left">
-<img src="images/e.png" alt="Right Image" class="side-image-right">
-
-<script>
-    // קוד JavaScript שלך נותר כמו שהוא
-</script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
