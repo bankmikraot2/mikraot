@@ -16,6 +16,17 @@
             top: 150px;
             height: auto;
         }
+
+        .points-image {
+            width:56%; /* גודל התמונה */
+            max-width: 300px; /* גודל מקסימלי */
+            margin: 20px auto; /* ריווח ומרכוז */
+            display: block;
+            position: relative; /* מאפשר שליטה במיקום */
+            top: -123px; /* שינוי מיקום כלפי מעלה/מטה */
+            left: 0; /* שינוי מיקום שמאלה/ימינה */
+        }
+
         .side-image-left {
             left: 5%;
             max-width: 900px; /* פי 2 מהגודל המקורי של 450px */
@@ -65,10 +76,51 @@
             }
         }
         @media (max-width: 768px) {
-            .side-image {
-                display: none;
-            }
-        }
+    .side-image {
+        display: none;
+    }
+}
+
+.student-image {
+    position: relative;
+    top: -40px; /* שנה מספר זה כדי להזיז למעלה או למטה */
+}
+
+#student-name-family {
+        position: relative;
+        top: -950px; /* שנה את המספר כדי להזיז את השם למעלה או למטה */
+        text-align: center; /* שמירה על יישור למרכז */
+        color: darkblue; /* צבע הטקסט */
+        font-size: 36px; /* גודל הפונט – תוכל לשנות את המספר לפי הצורך */
+        font-weight: bold; /* הדגשת הטקסט */
+    }
+
+    #branch-name {
+        position: relative;
+        top: -830px; /* שינוי מספר זה להזזת הטקסט למעלה/למטה */
+        text-align: center; /* מיקום למרכז */
+        color: darkgreen; /* צבע הטקסט */
+        font-size: 22px; /* גודל הפונט */
+        font-weight: bold; /* הדגשת הטקסט */
+        letter-spacing: 0px; /* ריווח בין אותיות */
+        text-transform: uppercase; /* הופך את הטקסט לאותיות גדולות */
+        padding: 5px; /* הוספת ריווח פנימי */
+                border-radius: 5px; /* פינות מעוגלות */
+    }
+
+        #student-points {
+        color: rgb(255, 219, 16);
+        font-size: 80px;
+        font-weight: bold;  /* הדגשת המספרים */
+        text-shadow: 2px 2px 4px black;
+        position: absolute;
+        top: 65%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+                padding: 10px; /* ריווח פנימי */
+        border-radius: 5px; /* פינות מעוגלות */
+    }
+</style>
     </style>
 </head>
 <body>
@@ -76,12 +128,18 @@
     
     <div class="center-content">
         <img src="images/logo.png" alt="Logo" class="logo mx-auto d-block">
-        <input type="text" class="form-control w-75 mx-auto mb-4" placeholder="מספר תלמיד" maxlength="10">
+        <input type="text" id="student-number" class="form-control w-75 mx-auto mb-4" placeholder="מספר תלמיד" maxlength="10" onkeyup="checkEnter(event)">
         <div class="decorative-images text-center">
             <img src="images/02.png" alt="Decorative Image 1">
-            <img src="images/01.png" alt="תלמיד יקר">
-            <img src="images/points.png" alt="Points Background">
+            <img src="images/01.png" alt="תלמיד יקר" class="student-image">
+            <img src="images/points.png" alt="Points Background" class="points-image">
+            <div id="student-points"></div>
         </div>
+        <div class="text-center">
+            <h3 id="student-name-family"></h3>
+            <h5 id="branch-name"></h5>
+        </div>
+        <div id="error-message" style="color: red; text-align: center;"></div>
     </div>
 
     <img src="images/e.png" alt="Right Image" class="side-image side-image-right">
@@ -89,5 +147,74 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const API_KEY = 'AIzaSyBR8GxtwO8hDWdNDcF6IUUgLQ745lu0Rb0';
+        const SPREADSHEET_ID = '1g8dsaK61biI6TDECNUnb32G0Hywk7HyMhkOXtld54VY';
+        const RANGE = 'תלמידים!A:F';
+        const URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+
+        function checkEnter(event) {
+            if (event.keyCode === 13) {
+                getStudentData();
+            }
+        }
+
+        async function getStudentData() {
+            const studentNumber = document.getElementById('student-number').value;
+            if (!studentNumber) {
+                showError('אנא הכנס מספר תלמיד');
+                return;
+            }
+
+            try {
+                const response = await fetch(URL);
+                const data = await response.json();
+
+                if (data.values && data.values.length > 0) {
+                    const student = findStudent(data.values, studentNumber);
+                    if (student) {
+                        showStudentData(student);
+                    } else {
+                        showError('תלמיד לא נמצא');
+                    }
+                } else {
+                    showError('לא נמצאו נתונים בגיליון');
+                }
+            } catch (error) {
+                showError('שגיאה בשליפת הנתונים: ' + error);
+            }
+        }
+
+        function findStudent(data, studentNumber) {
+            for (let i = 1; i < data.length; i++) {
+                if (data[i][0] == studentNumber.replace(/^0+/, '')) {
+                    return {
+                        id: data[i][0],
+                        name: data[i][1],
+                        family: data[i][2],
+                        branch: data[i][3],
+                        points: data[i][4]
+                    };
+                }
+            }
+            return null;
+        }
+
+        function showStudentData(student) {
+            document.getElementById('student-name-family').textContent = student.name + ' ' + student.family;
+            document.getElementById('branch-name').textContent = 'סניף: ' + student.branch;
+            let points = student.points.replace(/^0+/, '');  // הסרת אפסים מיותרים בהתחלה
+            document.getElementById('student-points').textContent = student.points;
+        }
+
+        function showError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('student-name-family').textContent = '';
+            document.getElementById('branch-name').textContent = '';
+            document.getElementById('student-points').textContent = '';
+        }
+    </script>
+
 </body>
 </html>
